@@ -81,6 +81,8 @@ func (l *Logger) Errorln(message string) {
 
 func NewLogger() *Logger {
 	l := &Logger{}
+	l.colors = make(map[Level]string)
+	l.files = make(map[Level]*os.File)
 	l.SetDefaultColors()
 	l.SetDefaultOutput()
 	l.SetDefaultTimeFormat()
