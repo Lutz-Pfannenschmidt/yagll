@@ -94,5 +94,5 @@ func (l *Logger) output(message string, level Level) {
 	fmt.Print(t.Format(l.timeFormat))
 	fmt.Print(" ")
 	msg := strings.TrimRight(message, "\n")
-	fmt.Printf("%s%s%s%s\n", level.String(l.colors[level]), l.colors[level], msg, Reset)
+	fmt.Printf("%s %s%s%s\n", level.String(l.colors[level]), l.colors[level], msg, Reset)
 }
