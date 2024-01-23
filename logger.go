@@ -33,45 +33,57 @@ func (l *Logger) SetDefaultOutput() {
 	l.files[ERROR] = os.Stderr
 }
 
+// Sets the time format used by the logger (time.Now().Format(format))
 func (l *Logger) SetTimeFormat(format string) {
 	l.timeFormat = format
 }
 
+// Sets the time format to the default format used by the logger
 func (l *Logger) SetDefaultTimeFormat() {
 	l.timeFormat = "Jan _2 15:04:05 2006"
 }
 
+// Print the formatted message to the debug level output
+// The message is formatted using fmt.Sprintf and always ends in a new line
 func (l *Logger) Debugf(format string, a ...interface{}) {
 	l.output(fmt.Sprintf(format, a...), DEBUG)
 }
 
+// Print the formatted message to the info level output
+// The message is formatted using fmt.Sprintf and always ends in a new line
 func (l *Logger) Infof(format string, a ...interface{}) {
 	l.output(fmt.Sprintf(format, a...), INFO)
 }
 
+// Print the formatted message to the error level output
+// The message is formatted using fmt.Sprintf and always ends in a new line
 func (l *Logger) Errorf(format string, a ...interface{}) {
 	l.output(fmt.Sprintf(format, a...), ERROR)
 }
 
+// Print the message to the debug level output
+// The message always ends in a new line
 func (l *Logger) Debugln(message string) {
-	msg := strings.TrimRight(message, "\n") + "\n"
-	l.output(msg, DEBUG)
+	l.output(message, DEBUG)
 }
 
+// Print the message to the info level output
+// The message always ends in a new line
 func (l *Logger) Infoln(message string) {
-	msg := strings.TrimRight(message, "\n") + "\n"
-	l.output(msg, INFO)
+	l.output(message, INFO)
 }
 
+// Print the message to the error level output
+// The message always ends in a new line
 func (l *Logger) Errorln(message string) {
-	msg := strings.TrimRight(message, "\n") + "\n"
-	l.output(msg, ERROR)
+	l.output(message, ERROR)
 }
 
 func NewLogger() *Logger {
 	l := &Logger{}
-	l.colors = make(map[Level]string)
 	l.SetDefaultColors()
+	l.SetDefaultOutput()
+	l.SetDefaultTimeFormat()
 	return l
 }
 
@@ -79,5 +91,6 @@ func (l *Logger) output(message string, level Level) {
 	t := time.Now()
 	fmt.Print(t.Format(l.timeFormat))
 	fmt.Print(" ")
-	fmt.Printf("%s%s%s\n", l.colors[level], message, Reset)
+	msg := strings.TrimRight(message, "\n") + "\n"
+	fmt.Printf("%s%s%s\n", l.colors[level], msg, Reset)
 }
