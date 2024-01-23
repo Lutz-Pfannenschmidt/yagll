@@ -18,8 +18,8 @@ func (l *Logger) SetColor(level Level, color string) {
 }
 
 func (l *Logger) SetDefaultColors() {
-	l.colors[DEBUG] = Blue
-	l.colors[INFO] = Green
+	l.colors[DEBUG] = Yellow
+	l.colors[INFO] = Blue
 	l.colors[ERROR] = Red
 }
 
