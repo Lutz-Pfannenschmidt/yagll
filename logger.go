@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 type Logger struct {
-	colors map[Level]string
-	files  map[Level]*os.File
+	colors     map[Level]string
+	files      map[Level]*os.File
+	timeFormat string
 }
 
 func (l *Logger) SetColor(level Level, color string) {
@@ -29,6 +31,14 @@ func (l *Logger) SetDefaultOutput() {
 	l.files[DEBUG] = os.Stdout
 	l.files[INFO] = os.Stdout
 	l.files[ERROR] = os.Stderr
+}
+
+func (l *Logger) SetTimeFormat(format string) {
+	l.timeFormat = format
+}
+
+func (l *Logger) SetDefaultTimeFormat() {
+	l.timeFormat = "Jan _2 15:04:05 2006"
 }
 
 func (l *Logger) Debugf(format string, a ...interface{}) {
@@ -66,5 +76,8 @@ func NewLogger() *Logger {
 }
 
 func (l *Logger) output(message string, level Level) {
+	t := time.Now()
+	fmt.Print(t.Format(l.timeFormat))
+	fmt.Print(" ")
 	fmt.Printf("%s%s%s\n", l.colors[level], message, Reset)
 }
