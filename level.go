@@ -12,11 +12,11 @@ const (
 func (l Level) String(color string) string {
 	switch l {
 	case INFO:
-		return "[" + color + "INFO " + Reset + "]"
+		return color + "INFO " + Reset
 	case DEBUG:
-		return "[" + color + "DEBUG" + Reset + "]"
+		return color + "DEBUG" + Reset
 	case ERROR:
-		return "[" + color + "ERROR" + Reset + "]"
+		return color + "ERROR" + Reset
 	}
-	return "[" + color + "  ?  " + Reset + "]"
+	return color + "  ?  " + Reset
 }
