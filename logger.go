@@ -10,6 +10,7 @@ import (
 type Logger struct {
 	colors     map[Level]string
 	files      map[Level]*os.File
+	toggle     map[Level]bool
 	timeFormat string
 }
 
@@ -79,10 +80,16 @@ func (l *Logger) Errorln(message string) {
 	l.output(message, ERROR)
 }
 
+// Toggle weather or not to print a message to the output
+func (l *Logger) Toggle(level Level, toggle bool) {
+	l.toggle[level] = toggle
+}
+
 func NewLogger() *Logger {
 	l := &Logger{}
 	l.colors = make(map[Level]string)
 	l.files = make(map[Level]*os.File)
+	l.toggle = map[Level]bool{DEBUG: true, INFO: true, ERROR: true}
 	l.SetDefaultColors()
 	l.SetDefaultOutput()
 	l.SetDefaultTimeFormat()
@@ -90,6 +97,9 @@ func NewLogger() *Logger {
 }
 
 func (l *Logger) output(message string, level Level) {
+	if !l.toggle[level] {
+		return
+	}
 	t := time.Now()
 	msg := strings.TrimRight(message, "\n")
 	fmt.Printf("%s [%s] %s%s%s\n", t.Format(l.timeFormat), level.String(l.colors[level]), l.colors[level], msg, Reset)
