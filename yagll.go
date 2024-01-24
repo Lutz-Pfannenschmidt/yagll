@@ -69,3 +69,8 @@ func Infoln(message string) {
 func Errorln(message string) {
 	stdlogger.Errorln(message)
 }
+
+// Toggle the output for the given level
+func Toggle(level Level, toggle bool) {
+	stdlogger.Toggle(level, toggle)
+}
