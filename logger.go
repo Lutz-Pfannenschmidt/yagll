@@ -131,6 +131,7 @@ func (l *Logger) output(message string, level Level) {
 		"Reset":   Reset,
 		"Message": msg,
 	})
+	l.files[level].Write([]byte("\n"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "YAGLL: Error executing template: %s", err)
 	}
