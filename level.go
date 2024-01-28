@@ -1,5 +1,10 @@
 package yagll
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Level int
 
 const (
@@ -8,15 +13,19 @@ const (
 	ERROR
 )
 
-// Level to string
-func (l Level) String(color string) string {
-	switch l {
-	case INFO:
-		return color + "INFO " + Reset
-	case DEBUG:
-		return color + "DEBUG" + Reset
-	case ERROR:
-		return color + "ERROR" + Reset
+var levelStrings = map[Level]string{
+	INFO:  "INFO",
+	DEBUG: "DEBUG",
+	ERROR: "ERROR",
+}
+
+// Returns the string representation of the level.
+func (l Level) String() string {
+	max_width := 0
+	for _, v := range levelStrings {
+		if len(v) > max_width {
+			max_width = len(v)
+		}
 	}
-	return color + "  ?  " + Reset
+	return fmt.Sprintf("%s%s", levelStrings[l], strings.Repeat(" ", max_width-len(levelStrings[l])))
 }
